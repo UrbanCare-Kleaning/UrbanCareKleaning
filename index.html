@@ -525,9 +525,26 @@
         <label for="date">Preferred Date</label>
         <input type="date" id="date">
       </div>
+      <div>
+        <label for="location">Location</label>
+        <input type="text" id="location" placeholder="e.g. Tanke, Ilorin">
+      </div>
+      <div>
+        <label for="rooms">Number of Rooms</label>
+        <input type="number" id="rooms" min="1" placeholder="e.g. 3">
+      </div>
+      <div>
+        <label for="furniture">Furniture Included?</label>
+        <select id="furniture">
+          <option value="">Select an option</option>
+          <option>Yes, fully furnished</option>
+          <option>Partially furnished</option>
+          <option>No, empty space</option>
+        </select>
+      </div>
       <div class="full">
-        <label for="notes">Job Details</label>
-        <textarea id="notes" rows="3" placeholder="Location, size of space, anything we should know before we quote."></textarea>
+        <label for="notes">Any other things you would like us to know?</label>
+        <textarea id="notes" rows="3" placeholder="Anything else that helps us quote accurately."></textarea>
       </div>
       <div class="full" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
         <button type="submit" class="btn-primary">Send via WhatsApp &rarr;</button>
@@ -691,10 +708,16 @@
     const phone = document.getElementById('phone').value;
     const service = document.getElementById('service').value;
     const date = document.getElementById('date').value;
+    const location = document.getElementById('location').value;
+    const rooms = document.getElementById('rooms').value;
+    const furniture = document.getElementById('furniture').value;
     const notes = document.getElementById('notes').value;
     let msg = `Hello Urban Care Pro, I would like to book a service.\nName: ${name}\nPhone: ${phone}\nService: ${service}`;
     if(date) msg += `\nPreferred Date: ${date}`;
-    if(notes) msg += `\nDetails: ${notes}`;
+    if(location) msg += `\nLocation: ${location}`;
+    if(rooms) msg += `\nNumber of Rooms: ${rooms}`;
+    if(furniture) msg += `\nFurniture Included: ${furniture}`;
+    if(notes) msg += `\nOther Notes: ${notes}`;
     window.open(`https://wa.me/2347034795930?text=${encodeURIComponent(msg)}`, '_blank');
   });
 </script>
