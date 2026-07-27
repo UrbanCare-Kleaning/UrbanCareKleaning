@@ -44,9 +44,9 @@
   .brand{display:flex;align-items:center;gap:10px;}
   .brand img{width:36px;height:36px;border-radius:7px;object-fit:cover;background:var(--ink);}
   .brand span{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.02rem;color:var(--ink);letter-spacing:-0.01em;}
-  nav ul{display:flex;gap:26px;list-style:none;}
+  nav ul{display:flex;gap:22px;list-style:none;}
   nav a{font-size:0.86rem;font-weight:500;color:var(--steel);transition:color .15s;}
-  nav a:hover{color:var(--teal);}
+  nav a:hover, nav a.active{color:var(--teal);}
   .nav-cta{
     background:var(--teal);color:#fff;
     padding:10px 18px;border-radius:6px;
@@ -54,6 +54,9 @@
     white-space:nowrap;letter-spacing:0.01em;
   }
   .nav-cta:hover{background:#157077;}
+  .nav-right{display:flex;align-items:center;gap:16px;}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+  .burger span{width:22px;height:2px;background:var(--ink);}
 
   .hero{
     background:linear-gradient(160deg, var(--ink) 0%, var(--ink-deep) 100%);
@@ -91,6 +94,7 @@
     font-weight:700;font-size:0.92rem;
     display:inline-flex;align-items:center;gap:8px;
     transition:transform .15s, background .15s;
+    border:none;cursor:pointer;font-family:'Inter',sans-serif;
   }
   .btn-primary:hover{background:#157077;transform:translateY(-1px);}
   .btn-ghost{
@@ -140,28 +144,44 @@
   .about-photo{background:var(--card);border:1px solid var(--line);overflow:hidden;border-radius:8px;}
   .about-photo img{width:100%;height:340px;object-fit:cover;}
 
-  /* manifest table */
+  /* manifest table / accordion services */
   .manifest{border:1px solid var(--line);background:var(--card);border-radius:8px;overflow:hidden;}
+  .manifest-item{border-bottom:1px solid var(--line);}
+  .manifest-item:last-child{border-bottom:none;}
   .manifest-row{
-    display:grid;grid-template-columns:74px 1fr auto;gap:18px;align-items:center;
-    padding:20px 22px;border-bottom:1px solid var(--line);
+    display:grid;grid-template-columns:74px 1fr auto auto;gap:18px;align-items:center;
+    padding:20px 22px;width:100%;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;
   }
-  .manifest-row:last-child{border-bottom:none;}
-  .manifest-code{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--teal);font-weight:600;}
+  .manifest-code{font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--teal);font-weight:700;}
   .manifest-name{font-weight:700;color:var(--ink);font-size:1rem;margin-bottom:3px;font-family:'Space Grotesk',sans-serif;}
   .manifest-desc{font-size:0.86rem;color:var(--steel);}
   .manifest-tag{
-    font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;
-    color:var(--teal);border:1px solid var(--teal);padding:4px 9px;border-radius:4px;
+    font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.02em;
+    color:var(--teal);background:rgba(26,140,147,0.12);padding:6px 14px;border-radius:20px;
     white-space:nowrap;text-transform:uppercase;
   }
-  @media (max-width:640px){.manifest-row{grid-template-columns:1fr;}.manifest-tag{justify-self:start;}}
+  .chevron{font-size:1.2rem;color:var(--muted);transition:transform .2s ease;}
+  .manifest-item.open .chevron{transform:rotate(45deg);color:var(--teal);}
+  .manifest-detail{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 22px;}
+  .manifest-item.open .manifest-detail{max-height:140px;padding-bottom:20px;}
+  .manifest-detail p{font-size:0.88rem;color:var(--steel);max-width:60ch;}
+  @media (max-width:640px){
+    .manifest-row{grid-template-columns:52px 1fr auto auto;gap:10px;padding:18px 16px;}
+    .manifest-tag{font-size:0.62rem;padding:5px 9px;}
+  }
 
-  /* gallery */
+  /* gallery + lightbox */
   .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  .gallery-item{border:1px solid var(--line);background:var(--card);border-radius:8px;overflow:hidden;}
-  .gallery-item img{width:100%;height:180px;object-fit:cover;}
+  .gallery-item{border:1px solid var(--line);background:var(--card);border-radius:8px;overflow:hidden;cursor:pointer;}
+  .gallery-item img{width:100%;height:180px;object-fit:cover;transition:transform .35s ease;}
+  .gallery-item:hover img{transform:scale(1.05);}
   .gallery-cap{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.04em;color:var(--muted);padding:9px 10px;text-transform:uppercase;}
+  .lightbox{position:fixed;inset:0;background:rgba(9,20,33,0.92);display:none;align-items:center;justify-content:center;z-index:100;padding:30px;}
+  .lightbox.show{display:flex;}
+  .lightbox img{max-height:80vh;max-width:90vw;border-radius:8px;}
+  .lightbox-close{position:absolute;top:24px;right:32px;color:#fff;font-size:2rem;background:none;border:none;cursor:pointer;}
+  .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:2.2rem;cursor:pointer;padding:12px;}
+  .lightbox-prev{left:12px;} .lightbox-next{right:12px;}
 
   /* protocol list */
   .protocol-band{background:linear-gradient(160deg, var(--ink) 0%, var(--ink-deep) 100%);color:var(--paper);}
@@ -179,6 +199,47 @@
   .protocol-item h3{font-size:1rem;color:#fff;margin-bottom:6px;font-weight:600;}
   .protocol-item p{font-size:0.88rem;color:#B9C6CF;max-width:56ch;}
 
+  /* testimonials */
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .testi-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:24px;}
+  .testi-card p{font-size:0.92rem;color:var(--steel);margin-bottom:16px;}
+  .testi-who{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.04em;color:var(--teal);text-transform:uppercase;}
+  .testi-note{font-size:0.82rem;color:var(--muted);margin-top:20px;font-style:italic;}
+
+  /* booking form */
+  .booking{background:var(--ink);color:var(--paper);}
+  .booking .section-head .eyebrow{color:var(--teal-light);}
+  .booking .section-head .eyebrow::before{background:var(--teal-light);}
+  .booking .section-head h2{color:#fff;}
+  .booking .section-head p{color:#C6D3DB;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;}
+  .form-grid label{display:block;font-size:0.78rem;font-weight:600;margin-bottom:8px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.03em;color:#C6D3DB;}
+  .form-grid input, .form-grid select, .form-grid textarea{
+    width:100%;background:#fff;color:var(--ink);border:1px solid transparent;padding:12px 14px;
+    font-family:'Inter',sans-serif;font-size:0.92rem;border-radius:6px;
+  }
+  .form-grid .full{grid-column:1/-1;}
+  .form-note{font-size:0.8rem;color:#9FB2BE;margin-top:14px;}
+
+  /* quality / safety */
+  .quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .quality-card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:24px;}
+  .quality-card h3{font-size:1rem;color:var(--ink);margin-bottom:14px;font-family:'Space Grotesk',sans-serif;}
+  .quality-card ul{margin:0;padding-left:18px;color:var(--steel);font-size:0.88rem;}
+  .quality-card li{margin-bottom:8px;}
+  .quality-note{font-size:0.85rem;color:var(--muted);margin-top:22px;}
+
+  /* faq */
+  .faq-list{border:1px solid var(--line);background:var(--card);border-radius:8px;overflow:hidden;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;cursor:pointer;font-weight:600;color:var(--ink);background:none;border:none;width:100%;text-align:left;font-family:'Inter',sans-serif;font-size:0.95rem;}
+  .faq-plus{color:var(--teal);font-size:1.2rem;transition:transform .2s ease;}
+  .faq-item.open .faq-plus{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 22px;}
+  .faq-item.open .faq-a{max-height:200px;padding-bottom:18px;}
+  .faq-a p{font-size:0.88rem;color:var(--steel);max-width:64ch;}
+
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
   .contact-card{background:var(--card);border:1px solid var(--line);padding:30px;border-radius:8px;}
   .contact-card h3{color:var(--ink);font-size:1.05rem;margin-bottom:18px;font-family:'Space Grotesk',sans-serif;}
@@ -190,11 +251,20 @@
 
   footer{border-top:1px solid var(--line);padding:26px 0;text-align:center;font-size:0.8rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
 
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
   @media (max-width:860px){
-    nav ul{display:none;}
+    nav ul{position:fixed;top:65px;left:0;right:0;background:var(--paper);flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .3s ease;border-bottom:1px solid var(--line);}
+    nav ul.open{max-height:400px;}
+    nav ul li{width:100%;}
+    nav ul a{display:block;padding:16px 24px;border-bottom:1px solid var(--line);}
+    .burger{display:flex;}
     .hero-grid{grid-template-columns:1fr;}
     .about-grid, .contact-grid{grid-template-columns:1fr;}
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .testi-grid, .quality-grid{grid-template-columns:1fr;}
+    .form-grid{grid-template-columns:1fr;}
   }
   @media (max-width:520px){
     .gallery-grid{grid-template-columns:1fr 1fr;}
@@ -210,14 +280,20 @@
       <span>Urban Care Pro</span>
     </a>
     <nav>
-      <ul>
+      <ul id="navList">
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#quality">Standards</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-    <a class="nav-cta" href="https://wa.me/2347034795930?text=Hello%20Urban%20Care%20Pro,%20I%20would%20like%20to%20book%20a%20cleaning%20service." target="_blank" rel="noopener">Book on WhatsApp</a>
+    <div class="nav-right">
+      <a class="nav-cta" href="#book">Book on WhatsApp</a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </header>
 
@@ -228,14 +304,123 @@
       <h1>Effortless cleaning.<br><em>Spotless</em> results, on contract.</h1>
       <p class="lede">We treat every job like a work order: scoped, priced, and signed off before we start. From single apartments to full institutional facilities across Ilorin.</p>
       <div class="hero-actions">
-        <a class="btn-primary" href="https://wa.me/2347034795930?text=Hello%20Urban%20Care%20Pro,%20I%20would%20like%20to%20book%20a%20cleaning%20service." target="_blank" rel="noopener">Book Now →</a>
+        <a class="btn-primary" href="#book">Book Now &rarr;</a>
         <a class="btn-ghost" href="#services">See the manifest</a>
       </div>
     </div>
 
     <div class="ticket">
       <div class="ticket-top">
-        <span class="mono">SERVICE RECORD · REF UCP-2026-014</span>
+        <span class="mono">SERVICE STATUS &middot; TODAY</span>
+        <span class="stamp">Now Booking</span>
+      </div>
+      <div class="ticket-body">
+        <div class="job">New Job Intake</div>
+        <div class="meta">Scoped and quoted before we touch a broom</div>
+        <div class="ticket-rows">
+          <div class="ticket-row"><span>SERVICE LINES</span><span>6</span></div>
+          <div class="ticket-row"><span>RESPONSE TIME</span><span>Within 2 hours</span></div>
+          <div class="ticket-row"><span>BOOKING TERMS</span><span>70% deposit secures date</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid reveal">
+    <div class="about-photo">
+      <img src="images/clean2.jpg" alt="Urban Care Pro cleaning in progress">
+    </div>
+    <div>
+      <div class="eyebrow">About</div>
+      <h2 style="color:var(--ink);font-size:1.85rem;margin-bottom:16px;letter-spacing:-0.015em;">Run like an operation, not a favor.</h2>
+      <p>Urban Care Pro handles cleaning the way a contractor handles a build: a written scope, a fair quote, and a crew that actually shows up.</p>
+      <p>We've cleaned single apartments, and we've deep-cleaned an Officers' Mess for the Nigerian Army. Same standard, every time. No shortcuts on the smaller jobs.</p>
+      <div class="stat-row">
+        <div class="stat"><b>06</b><span>Service lines</span></div>
+        <div class="stat"><b>100%</b><span>Satisfaction focus</span></div>
+        <div class="stat"><b>2H</b><span>Response time</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">What We Do</div>
+      <h2>Six service lines. One standard.</h2>
+      <p>Every line item priced and scoped before we start. No surprise charges on the day. Tap any line for details.</p>
+    </div>
+    <div class="manifest" id="manifest">
+      <div class="manifest-item">
+        <button class="manifest-row" type="button">
+          <span class="manifest-code">RC-01</span>
+          <div><div class="manifest-name">Residential Cleaning</div><div class="manifest-desc">Deep cleaning for apartments and homes, top to bottom.</div></div>
+          <span class="manifest-tag">Available</span>
+          <span class="chevron">+</span>
+        </button>
+        <div class="manifest-detail"><p>Kitchens, bathrooms, floors, and surfaces most services skip, covered top to bottom on every visit.</p></div>
+      </div>
+      <div class="manifest-item">
+        <button class="manifest-row" type="button">
+          <span class="manifest-code">CC-02</span>
+          <div><div class="manifest-name">Commercial Cleaning</div><div class="manifest-desc">Office and workplace cleaning that keeps operations running.</div></div>
+          <span class="manifest-tag">Available</span>
+          <span class="chevron">+</span>
+        </button>
+        <div class="manifest-detail"><p>Scheduled around your operating hours, so work never stops for the crew.</p></div>
+      </div>
+      <div class="manifest-item">
+        <button class="manifest-row" type="button">
+          <span class="manifest-code">LS-03</span>
+          <div><div class="manifest-name">Laundry Services</div><div class="manifest-desc">Pickup and delivery available, on your schedule.</div></div>
+          <span class="manifest-tag">Available</span>
+          <span class="chevron">+</span>
+        </button>
+        <div class="manifest-detail"><p>Wash, fold, and press handled off-site, with pickup and delivery on your timeline.</p></div>
+      </div>
+      <div class="manifest-item">
+        <button class="manifest-row" type="button">
+          <span class="manifest-code">MV-04</span>
+          <div><div class="manifest-name">Move In / Move Out</div><div class="manifest-desc">Complete property cleaning before keys change hands.</div></div>
+          <span class="manifest-tag">Available</span>
+          <span class="chevron">+</span>
+        </button>
+        <div class="manifest-detail"><p>Landlord and agent ready condition, done before your handover date.</p></div>
+      </div>
+      <div class="manifest-item">
+        <button class="manifest-row" type="button">
+          <span class="manifest-code">FM-05</span>
+          <div><div class="manifest-name">Fumigation</div><div class="manifest-desc">Pest control and fumigation for lasting protection.</div></div>
+          <span class="manifest-tag">Available</span>
+          <span class="chevron">+</span>
+        </button>
+        <div class="manifest-detail"><p>Safe for residential and institutional spaces alike, with lasting protection.</p></div>
+      </div>
+      <div class="manifest-item">
+        <button class="manifest-row" type="button">
+          <span class="manifest-code">CD-06</span>
+          <div><div class="manifest-name">Car Detailing</div><div class="manifest-desc">Interior and exterior detailing, done right.</div></div>
+          <span class="manifest-tag">Available</span>
+          <span class="chevron">+</span>
+        </button>
+        <div class="manifest-detail"><p>At your home, office, or on-site during a facility job.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">Field Record</div>
+      <h2 style="color:var(--ink);">Documented, not staged.</h2>
+    </div>
+    <div class="ticket" style="max-width:520px;margin-bottom:36px;">
+      <div class="ticket-top">
+        <span class="mono">SERVICE RECORD &middot; REF UCP-2026-014</span>
         <span class="stamp">Completed</span>
       </div>
       <div class="ticket-body">
@@ -248,87 +433,17 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="about">
-  <div class="wrap about-grid">
-    <div class="about-photo">
-      <img src="images/clean2.jpg" alt="Urban Care Pro cleaning in progress">
-    </div>
-    <div>
-      <div class="eyebrow">About</div>
-      <h2 style="color:var(--ink);font-size:1.85rem;margin-bottom:16px;letter-spacing:-0.015em;">Run like an operation, not a favor.</h2>
-      <p>Urban Care Pro handles cleaning the way a contractor handles a build: a written scope, a fair quote, and a crew that actually shows up.</p>
-      <p>We've cleaned single apartments, and we've deep-cleaned an Officers' Mess for the Nigerian Army. Same standard, every time. No shortcuts on the smaller jobs.</p>
-      <div class="stat-row">
-        <div class="stat"><b>06</b><span>Service lines</span></div>
-        <div class="stat"><b>100%</b><span>Satisfaction focus</span></div>
-        <div class="stat"><b>24H</b><span>Response time</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="services" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">What We Do</div>
-      <h2>Six service lines. One standard.</h2>
-      <p>Every line item priced and scoped before we start. No surprise charges on the day.</p>
-    </div>
-    <div class="manifest">
-      <div class="manifest-row">
-        <span class="manifest-code">RC-01</span>
-        <div><div class="manifest-name">Residential Cleaning</div><div class="manifest-desc">Deep cleaning for apartments and homes, top to bottom.</div></div>
-        <span class="manifest-tag">Available</span>
-      </div>
-      <div class="manifest-row">
-        <span class="manifest-code">CC-02</span>
-        <div><div class="manifest-name">Commercial Cleaning</div><div class="manifest-desc">Office and workplace cleaning that keeps operations running.</div></div>
-        <span class="manifest-tag">Available</span>
-      </div>
-      <div class="manifest-row">
-        <span class="manifest-code">LS-03</span>
-        <div><div class="manifest-name">Laundry Services</div><div class="manifest-desc">Pickup and delivery available, on your schedule.</div></div>
-        <span class="manifest-tag">Available</span>
-      </div>
-      <div class="manifest-row">
-        <span class="manifest-code">MV-04</span>
-        <div><div class="manifest-name">Move In / Move Out</div><div class="manifest-desc">Complete property cleaning before keys change hands.</div></div>
-        <span class="manifest-tag">Available</span>
-      </div>
-      <div class="manifest-row">
-        <span class="manifest-code">FM-05</span>
-        <div><div class="manifest-name">Fumigation</div><div class="manifest-desc">Pest control and fumigation for lasting protection.</div></div>
-        <span class="manifest-tag">Available</span>
-      </div>
-      <div class="manifest-row">
-        <span class="manifest-code">CD-06</span>
-        <div><div class="manifest-name">Car Detailing</div><div class="manifest-desc">Interior and exterior detailing, done right.</div></div>
-        <span class="manifest-tag">Available</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="gallery">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Field Record</div>
-      <h2 style="color:var(--ink);">Documented, not staged.</h2>
-    </div>
-    <div class="gallery-grid">
-      <div class="gallery-item"><img src="images/clean2.jpg" alt="Residential deep clean"><div class="gallery-cap">Exhibit 01 · Deep Clean</div></div>
-      <div class="gallery-item"><img src="images/laundry.jpg" alt="Laundry service"><div class="gallery-cap">Exhibit 02 · Laundry</div></div>
-      <div class="gallery-item"><img src="images/fumigation.jpg" alt="Fumigation service"><div class="gallery-cap">Exhibit 03 · Fumigation</div></div>
-      <div class="gallery-item"><img src="images/glassclean.jpg" alt="Glass and window cleaning"><div class="gallery-cap">Exhibit 04 · Glass & Window</div></div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item" data-full="images/clean2.jpg"><img src="images/clean2.jpg" alt="Residential deep clean"><div class="gallery-cap">Exhibit 01 &middot; Deep Clean</div></div>
+      <div class="gallery-item" data-full="images/laundry.jpg"><img src="images/laundry.jpg" alt="Laundry service"><div class="gallery-cap">Exhibit 02 &middot; Laundry</div></div>
+      <div class="gallery-item" data-full="images/fumigation.jpg"><img src="images/fumigation.jpg" alt="Fumigation service"><div class="gallery-cap">Exhibit 03 &middot; Fumigation</div></div>
+      <div class="gallery-item" data-full="images/glassclean.jpg"><img src="images/glassclean.jpg" alt="Glass and window cleaning"><div class="gallery-cap">Exhibit 04 &middot; Glass &amp; Window</div></div>
     </div>
   </div>
 </section>
 
 <section class="protocol-band">
-  <div class="wrap">
+  <div class="wrap reveal">
     <div class="section-head">
       <div class="eyebrow">How We Operate</div>
       <h2>Four steps, no surprises.</h2>
@@ -354,8 +469,146 @@
   </div>
 </section>
 
+<section id="testimonials">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">On Record</div>
+      <h2 style="color:var(--ink);">What clients say.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <p>"Booked a move-out clean and the place looked better than when we moved in. Fair quote, no changes on the day."</p>
+        <div class="testi-who">Property Manager, Move-Out Client</div>
+      </div>
+      <div class="testi-card">
+        <p>"We use them for our office every month now. They work around our hours and the team is consistent every time."</p>
+        <div class="testi-who">Office Manager, Commercial Client</div>
+      </div>
+      <div class="testi-card">
+        <p>"Deep clean for the whole apartment before my in-laws visited. Everything was scoped and priced upfront, no surprises."</p>
+        <div class="testi-who">Homeowner, Tanke, Ilorin</div>
+      </div>
+    </div>
+    <p class="testi-note">Sample reviews shown while UCP collects and confirms client quotes for publication.</p>
+  </div>
+</section>
+
+<section class="booking" id="book">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">Request A Quote</div>
+      <h2>Ready to book, or need a quote?</h2>
+      <p>Fill this in and we will open WhatsApp with your details pre-filled, the fastest way to get a same-day response. Prefer email? Use the button below instead.</p>
+    </div>
+    <form class="form-grid" id="bookingForm">
+      <div>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required placeholder="e.g. Amina Yusuf">
+      </div>
+      <div>
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required placeholder="e.g. 0803 000 0000">
+      </div>
+      <div>
+        <label for="service">Service Needed</label>
+        <select id="service">
+          <option>Residential Cleaning</option>
+          <option>Commercial Cleaning</option>
+          <option>Laundry Services</option>
+          <option>Move In / Move Out</option>
+          <option>Fumigation</option>
+          <option>Car Detailing</option>
+          <option>Institutional / Contract Job</option>
+        </select>
+      </div>
+      <div>
+        <label for="date">Preferred Date</label>
+        <input type="date" id="date">
+      </div>
+      <div class="full">
+        <label for="notes">Job Details</label>
+        <textarea id="notes" rows="3" placeholder="Location, size of space, anything we should know before we quote."></textarea>
+      </div>
+      <div class="full" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <button type="submit" class="btn-primary">Send via WhatsApp &rarr;</button>
+        <a class="btn-ghost" href="mailto:info.urbancarepro@gmail.com">Email Instead</a>
+      </div>
+      <p class="form-note full">A 70% deposit secures your date. Institutional and contract jobs: email works better for procurement paperwork.</p>
+    </form>
+  </div>
+</section>
+
+<section id="quality" style="background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="eyebrow">Quality &amp; Safety Standards</div>
+      <h2 style="color:var(--ink);">How every job actually runs.</h2>
+      <p>Our internal SOP is structured on ISSA CIMS (Cleaning Industry Management Standard) principles, adapted for our scale. Summaries are below. The full SOP is shared with institutional and contract clients on request.</p>
+    </div>
+    <div class="quality-grid">
+      <div class="quality-card">
+        <h3>Quality Assurance</h3>
+        <ul>
+          <li>Scope, price, and timeline confirmed in writing before work begins</li>
+          <li>Pre-job walkthrough to note existing damage and priority areas</li>
+          <li>Before-and-after photos taken zone by zone</li>
+          <li>Post-job walkthrough and client sign-off before the team leaves</li>
+          <li>Flagged issues corrected same-visit, or a free follow-up within 48 hours</li>
+        </ul>
+      </div>
+      <div class="quality-card">
+        <h3>Safety &amp; Conduct</h3>
+        <ul>
+          <li>Gloves mandatory for bathroom, kitchen, and chemical-handling tasks</li>
+          <li>Chemicals stored in original labeled containers, never decanted unmarked</li>
+          <li>Any incident logged and the client informed the same day</li>
+          <li>Confidentiality on every site: nothing seen or overheard leaves with the crew</li>
+          <li>Basic ID verification for every team member before their first job</li>
+        </ul>
+      </div>
+      <div class="quality-card">
+        <h3>Client Communication</h3>
+        <ul>
+          <li>All communication runs through the official WhatsApp Business line or email</li>
+          <li>Target response time: within 2 hours during business hours</li>
+          <li>Complaints acknowledged within 2 hours, investigated, and logged</li>
+          <li>Free correction visit is the default remedy for any quality issue</li>
+        </ul>
+      </div>
+    </div>
+    <p class="quality-note">Want the full SOP and Compliance Framework document? Email <a href="mailto:info.urbancarepro@gmail.com" style="color:var(--teal);font-weight:600;">info.urbancarepro@gmail.com</a>.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap reveal" style="max-width:820px;">
+    <div class="section-head">
+      <div class="eyebrow">Fine Print</div>
+      <h2 style="color:var(--ink);">Questions, answered straight.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" type="button">Do you cover areas outside Tanke, Ilorin? <span class="faq-plus">+</span></button>
+        <div class="faq-a"><p>Yes, we operate across Ilorin. Share your location when you request a quote and we will confirm response time before booking.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">How does the 70% deposit work? <span class="faq-plus">+</span></button>
+        <div class="faq-a"><p>Once scope and price are confirmed in writing, a 70% deposit secures your date on the schedule. The balance is settled at walkthrough sign-off.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">Can you handle institutional or contract jobs? <span class="faq-plus">+</span></button>
+        <div class="faq-a"><p>Yes, the Sobi Barracks Officers' Mess deep clean is one example. We provide written scope documents and cost breakdowns for procurement review.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">What if I am not satisfied on walkthrough? <span class="faq-plus">+</span></button>
+        <div class="faq-a"><p>Nothing is marked closed until you have signed off in person. If something is missed, we address it before the job is considered complete.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
-  <div class="wrap contact-grid">
+  <div class="wrap contact-grid reveal">
     <div>
       <div class="eyebrow">Get In Touch</div>
       <h2 style="color:var(--ink);font-size:1.85rem;margin-bottom:16px;letter-spacing:-0.015em;">Ready to book, or need a quote?</h2>
@@ -378,6 +631,73 @@
 <footer>
   © 2026 URBAN CARE PRO SERVICES
 </footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lbPrev">&lsaquo;</button>
+  <img id="lbImg" src="" alt="Exhibit enlarged view">
+  <button class="lightbox-nav lightbox-next" id="lbNext">&rsaquo;</button>
+</div>
+
+<script>
+  // Mobile nav
+  const burger = document.getElementById('burger');
+  const navList = document.getElementById('navList');
+  burger.addEventListener('click', () => navList.classList.toggle('open'));
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
+
+  // Reveal on scroll
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, {threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // Accordion: services
+  document.querySelectorAll('#manifest .manifest-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const item = row.closest('.manifest-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('#manifest .manifest-item').forEach(i => i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Accordion: FAQ
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const figures = Array.from(document.querySelectorAll('#galleryGrid .gallery-item'));
+  let lbIndex = 0;
+  function openLB(i){ lbIndex = i; lbImg.src = figures[i].dataset.full; lightbox.classList.add('show'); }
+  figures.forEach((fig, i) => fig.addEventListener('click', () => openLB(i)));
+  document.getElementById('lbClose').addEventListener('click', () => lightbox.classList.remove('show'));
+  document.getElementById('lbNext').addEventListener('click', () => openLB((lbIndex + 1) % figures.length));
+  document.getElementById('lbPrev').addEventListener('click', () => openLB((lbIndex - 1 + figures.length) % figures.length));
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('show'); });
+
+  // Booking form -> WhatsApp
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const service = document.getElementById('service').value;
+    const date = document.getElementById('date').value;
+    const notes = document.getElementById('notes').value;
+    let msg = `Hello Urban Care Pro, I would like to book a service.\nName: ${name}\nPhone: ${phone}\nService: ${service}`;
+    if(date) msg += `\nPreferred Date: ${date}`;
+    if(notes) msg += `\nDetails: ${notes}`;
+    window.open(`https://wa.me/2347034795930?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
 
 </body>
 </html>
